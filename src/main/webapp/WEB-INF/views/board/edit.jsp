@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!DOCTYPE html>
 <html>
@@ -8,32 +9,31 @@
     <title>Insert title here</title>
 </head>
 <body>
+<%--    <form action="<c:url value="/board/write" />" method="POST">--%>
+<form:form commandName="boardVO" method="POST">
     <table border="1">
         <tr>
             <th>제목</th>
-            <td>${boardVO.title}</td>
+            <td><input name="title"></td>
         </tr>
         <tr>
             <th>내용</th>
-            <td>${boardVO.content}</td>
+            <td><input name="content"></td>
         </tr>
         <tr>
             <th>작성자</th>
-            <td>${boardVO.writer}</td>
+            <td><input name="writer"><</td>
         </tr>
         <tr>
-            <th>작성일</th>
-            <td>${boardVO.regData}</td>
-        </tr>
-        <tr>
-            <th>조회수</th>
-            <td>${boardVO.cnt}</td>
+            <th><label for="password"> 비밀번호 </label> </th>
+            <td><input type="password" id="pwd" name="pwd" />
+                ${msg} </td>
         </tr>
     </table>
     <div>
-        <a href="<c:url value="/board/edit/${boardVO.seq}" />">수정</a>
-        <a href="<c:url value="/board/delete/${boardVO.seq}" />">삭제</a>
+        <input type="submit" value="수정">
         <a href="<c:url value="/board/list" />">목록</a>
     </div>
+</form:form>
 </body>
 </html>
