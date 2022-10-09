@@ -19,6 +19,15 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
+    public BoardService getBoardService() {
+        return boardService;
+    }
+
+    public void setBoardService(BoardService boardService) {
+        this.boardService = boardService;
+    }
+
+
     /*
     @RequestMapping(value = "/board/list")
     @ResponseBody   // 諛섑솚 臾몄옄�뿴�쓣 洹몃�濡� �쎒 釉뚮씪�슦���뿉 �쟾�떖
@@ -51,24 +60,27 @@ public class BoardController {
 
     // 새 글 DB에 저장
     @RequestMapping(value = "/board/write", method= RequestMethod.POST)
-    public String write(@Valid BoardVO boardVO, BindingResult bindingResult) {
+    public String write(@Valid BoardVO boardVO, BindingResult bindingResult, SessionStatus sessionStatus) {
         if(bindingResult.hasErrors()) {
             return "/board/write";
         } else {
             boardService.write(boardVO);
+            sessionStatus.setComplete();
             return "redirect:/board/list";
         }
     }
 
     // 수정
     @RequestMapping(value = "/board/edit/{seq}", method = RequestMethod.GET)
-    public String edit(@PathVariable int seq, Model model) {
-        BoardVO boardVO = boardService.read(seq);
-        model.addAttribute("boardVO", boardVO);
+    public String edit(@ModelAttribute BoardVO boardVO) {
+        // 어차피 read에서 추가가 되서, 추가할 필요가 없다는거야.
+//        BoardVO boardVO = boardService.read(seq);
+//        model.addAttribute("boardVO", boardVO);
         return "/board/edit";
     }
 
-    @RequestMapping(value = "/board/edit/{seq}", method = RequestMethod.POST)
+//    @RequestMapping(value = "/board/edit/{seq}", method = RequestMethod.POST)
+    @RequestMapping(value = "/board/edit", method = RequestMethod.POST)
     public String edit(@Valid @ModelAttribute BoardVO boardVO, BindingResult result, int pwd,
                        SessionStatus sessionStatus, Model model) {
         if (result.hasErrors()) {
